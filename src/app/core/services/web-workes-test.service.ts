@@ -7,15 +7,64 @@ export class WebWorkesTestService {
   startDomain() {
     console.log('Test start');
     this.countToBigNum();
+    this.fibbonacciSequence();
   }
 
   createCountWorker() {
     return new Worker(new URL('../workers/count.worker', import.meta.url));
   }
 
+  createFibbonaciWorker() {
+    return new Worker(new URL('../workers/fibonacci.worker', import.meta.url))
+  }
+
   countToBigNum() {
     this.countToBigNumMain();
     this.countToBigNumWorker();
+  }
+
+  fibbonacciSequence() {
+    this.fibbonacciSequenceMain();
+    this.fibbonacciSequenceWorker();
+  }
+
+
+  fibbonacciSequenceMain() {
+    const number = 1e9;
+    let n1 = 0, n2 = 1;
+    let result;
+
+    const initialTick = performance.now();
+
+    for (let i = 0; i <= number; i++) {
+      result = n2 + n1;
+      n1 = n2
+      n2 = result
+    }
+
+    const finalTick = performance.now();
+
+    console.log(
+      `Fibbonacci of ${number} on main thread: ${finalTick - initialTick} ms`
+    );
+  }
+
+
+  fibbonacciSequenceWorker() {
+    const number = 1e9;
+
+    const worker = this.createFibbonaciWorker();
+
+    worker.onmessage = () => {
+      const finalTick = performance.now();
+      console.log(
+        `Fibbonacci of ${number} on worker: ${finalTick - initialTick} ms`
+      );
+    }
+
+    const initialTick = performance.now();
+    worker.postMessage(number)
+
   }
 
   countToBigNumMain() {
@@ -40,7 +89,7 @@ export class WebWorkesTestService {
   countToBigNumWorker() {
     const numbers = Array.from({ length: 100 }, () => 1e8);
 
-    const workers = 10;
+    const workers = 8;
     let jobsDones = 0;
 
     const workerCallBack = () => {
@@ -50,8 +99,7 @@ export class WebWorkesTestService {
         const finalTick = performance.now();
 
         console.log(
-          `Count to a big number on ${workers} workers: ${
-            finalTick - initialTick
+          `Count to a big number on ${workers} workers: ${finalTick - initialTick
           } ms`
         );
       }
@@ -66,4 +114,10 @@ export class WebWorkesTestService {
       worker.postMessage(numbers.slice(i * jobs, (i + 1) * jobs));
     }
   }
+
+  fib(n: number): number {
+    if (n <= 2) return 1
+    return this.fib(n - 1) + this.fib(n - 2)
+  }
 }
+
