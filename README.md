@@ -17,30 +17,30 @@ The *tsconfig.worker.json* file is essential for code compilation, as it specifi
 To create a worker will be needed to create a new *Worker* instance:
 
 ```typescript
-  private _worker: Worker
+  private _worker: Worker;
   
-  _worker = new Worker(new URL('../worker relative path', import.meta.url))
+  _worker = new Worker(new URL('../worker relative path', import.meta.url));
 ```
 
 
 A Web Worker communicates with the main thread through a messaging system, and you need to create a callback to be executed once the worker completes its task.
 
-On main thread:
+On the main thread:
 ```typescript
   _worker.onmessage = () => {
-    console.log('Your worker job is done!')
+    console.log('Your worker job is done!');
   }
 
-  _worker.postMessage('Pass some data to your worker here')
+  _worker.postMessage('Pass some data to your worker here');
 ```
 
-On worker:
+On the worker:
 
 ```typescript
   /// <reference lib="webworker" />
 
   addEventListener('message', ({ data }) => {
-    console.log('Perform actions with the received data here')
+    console.log('Perform actions with the received data here');
     
     postMessage('Send to main thread the results here');
   });
