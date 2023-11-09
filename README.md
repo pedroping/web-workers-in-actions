@@ -1,27 +1,35 @@
-# WebWorkersInAction
+# Web Workers in action
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.
+As you already know, JavaScript traditionally operates as a single-threaded language with all tasks queued. However, now we have the power of Web Workers to execute code on separate threads, allowing us to avoid blocking the main thread.
 
-## Development server
+To create a worker will be needed to create a new *Worker* instance:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+```typescript
+  private _worker: Worker
+  
+  _worker = new Worker(new URL('../worker relative path', import.meta.url))
+```
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+A Web Worker communicates with the main thread through a messaging system, and you need to create a callback to be executed once the worker completes its task.
 
-## Build
+On main thread:
+```typescript
+  _worker.onmessage = () => {
+    console.log('Your worker job is done!')
+  }
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+  _worker.postMessage('Pass some data to your worker here')
+```
 
-## Running unit tests
+On worker:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```typescript
+  /// <reference lib="webworker" />
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+  addEventListener('message', ({ data }) => {
+    console.log('Perform actions with the received data here')
+    
+    postMessage('Send to main thread the results here');
+  });
+```
