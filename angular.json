@@ -118,5 +118,13 @@
   },
   "cli": {
     "analytics": "7713712a-2cb1-4e11-90d4-3de5daafa7f8"
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "style": "scss",
+      "changeDetection": "OnPush",
+      "standalone": true,
+      "prefix": "bs"
+    }
   }
 }

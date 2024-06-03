@@ -4,10 +4,12 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class WebWorkesTestService {
+  mainNumCount = 0;
+
   startDomain() {
     console.log('Test start');
-    this.countToBigNum();
-    this.fibbonacciSequence();
+    // this.countToBigNum();
+    // this.fibbonacciSequence();
   }
 
   createCountWorker() {
@@ -15,7 +17,7 @@ export class WebWorkesTestService {
   }
 
   createFibbonaciWorker() {
-    return new Worker(new URL('../workers/fibonacci.worker', import.meta.url))
+    return new Worker(new URL('../workers/fibonacci.worker', import.meta.url));
   }
 
   countToBigNum() {
@@ -28,18 +30,18 @@ export class WebWorkesTestService {
     this.fibbonacciSequenceWorker();
   }
 
-
   fibbonacciSequenceMain() {
     const number = 1e9;
-    let n1 = 0, n2 = 1;
+    let n1 = 0,
+      n2 = 1;
     let result;
 
     const initialTick = performance.now();
 
     for (let i = 0; i <= number; i++) {
       result = n2 + n1;
-      n1 = n2
-      n2 = result
+      n1 = n2;
+      n2 = result;
     }
 
     const finalTick = performance.now();
@@ -48,7 +50,6 @@ export class WebWorkesTestService {
       `Fibbonacci of ${number} on main thread: ${finalTick - initialTick} ms`
     );
   }
-
 
   fibbonacciSequenceWorker() {
     const number = 1e9;
@@ -60,11 +61,10 @@ export class WebWorkesTestService {
       console.log(
         `Fibbonacci of ${number} on worker: ${finalTick - initialTick} ms`
       );
-    }
+    };
 
     const initialTick = performance.now();
-    worker.postMessage(number)
-
+    worker.postMessage(number);
   }
 
   countToBigNumMain() {
@@ -80,6 +80,7 @@ export class WebWorkesTestService {
     }
 
     const finalTick = performance.now();
+    this.mainNumCount = finalTick;
 
     console.log(
       `Count to a big number on main thread: ${finalTick - initialTick} ms`
@@ -99,8 +100,15 @@ export class WebWorkesTestService {
         const finalTick = performance.now();
 
         console.log(
-          `Count to a big number on ${workers} workers: ${finalTick - initialTick
+          `Count to a big number on ${workers} workers: ${
+            finalTick - initialTick
           } ms`
+        );
+
+        console.log(
+          `Time spend difference is ${
+            this.mainNumCount - (finalTick - initialTick)
+          }`
         );
       }
     };
@@ -116,8 +124,7 @@ export class WebWorkesTestService {
   }
 
   fib(n: number): number {
-    if (n <= 2) return 1
-    return this.fib(n - 1) + this.fib(n - 2)
+    if (n <= 2) return 1;
+    return this.fib(n - 1) + this.fib(n - 2);
   }
 }
-
