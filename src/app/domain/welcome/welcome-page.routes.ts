@@ -4,6 +4,7 @@ import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 export default [
   {
     path: '',
-    component: WelcomePageComponent,
+    loadComponent: async () =>
+      (await import('./page/welcome-page.component')).WelcomePageComponent,
   },
-] as Route[];
+] as Routes;
