@@ -4,11 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class WebWorkesTestService {
-  startDomain() {
-    console.log('Test start');
-    this.countToBigNum();
-  }
-
   createCountWorker() {
     return new Worker(new URL('../workers/count.worker', import.meta.url));
   }

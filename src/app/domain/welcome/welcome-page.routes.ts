@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { WelcomePageComponent } from './welcome-page.component';
+import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 
 export default [
   {

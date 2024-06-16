@@ -1,21 +1,16 @@
-import { AfterViewChecked, AfterViewInit, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  Component
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { WebWorkesTestService } from './core/services/web-workes-test.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
   imports: [CommonModule, RouterOutlet],
 })
-export class AppComponent implements AfterViewInit {
-  private readonly webWorkesTestService = inject(WebWorkesTestService);
-
+export class AppComponent {
   title = 'web-workers-in-action';
-
-  ngAfterViewInit(): void {
-    this.webWorkesTestService.startDomain();
-  }
 }
