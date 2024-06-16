@@ -1,10 +1,10 @@
-import { Route } from '@angular/router';
-import { WelcomePageComponent } from './welcome-page/welcome-page.component';
+import { Routes } from '@angular/router';
 
 export default [
   {
     path: '',
     loadComponent: async () =>
-      (await import('./page/welcome-page.component')).WelcomePageComponent,
+      (await import('./welcome-page/welcome-page.component'))
+        .WelcomePageComponent,
   },
 ] as Routes;
