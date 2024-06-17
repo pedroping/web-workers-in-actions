@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WebWorkesTestService {
   mainNumCount = 0;
+  mainFibbonacciCount = 0;
 
-  startDomain() {
-    console.log('Test start');
-    // this.countToBigNum();
-    // this.fibbonacciSequence();
-  }
+  constructor(private toastr: ToastrService) {}
 
   createCountWorker() {
     return new Worker(new URL('../workers/count.worker', import.meta.url));
@@ -20,107 +18,137 @@ export class WebWorkesTestService {
     return new Worker(new URL('../workers/fibonacci.worker', import.meta.url));
   }
 
-  countToBigNum() {
-    this.countToBigNumMain();
-    this.countToBigNumWorker();
-  }
-
-  fibbonacciSequence() {
-    this.fibbonacciSequenceMain();
-    this.fibbonacciSequenceWorker();
-  }
-
   fibbonacciSequenceMain() {
-    const number = 1e9;
-    let n1 = 0,
-      n2 = 1;
-    let result;
-
-    const initialTick = performance.now();
-
-    for (let i = 0; i <= number; i++) {
-      result = n2 + n1;
-      n1 = n2;
-      n2 = result;
-    }
-
-    const finalTick = performance.now();
-
-    console.log(
-      `Fibbonacci of ${number} on main thread: ${finalTick - initialTick} ms`
+    const { onHidden } = this.toastr.info(
+      'Iniciando Fibbonacci na Main thread'
     );
+
+    onHidden.subscribe(() => {
+      const number = 1e9;
+      let n1 = 0,
+        n2 = 1;
+      let result;
+
+      const initialTick = performance.now();
+
+      for (let i = 0; i <= number; i++) {
+        result = n2 + n1;
+        n1 = n2;
+        n2 = result;
+      }
+
+      const finalTick = performance.now();
+      this.mainFibbonacciCount = finalTick - initialTick;
+
+      this.toastr.success(
+        `Fibbonacci de ${number} na Main thread:  ${(
+          finalTick - initialTick
+        ).toFixed(0)} ms`
+      );
+    });
   }
 
   fibbonacciSequenceWorker() {
-    const number = 1e9;
+    const { onHidden } = this.toastr.info(
+      'Iniciando Fibbonacci com Web Workers'
+    );
 
-    const worker = this.createFibbonaciWorker();
+    onHidden.subscribe(() => {
+      const number = 1e9;
 
-    worker.onmessage = () => {
-      const finalTick = performance.now();
-      console.log(
-        `Fibbonacci of ${number} on worker: ${finalTick - initialTick} ms`
-      );
-    };
+      const worker = this.createFibbonaciWorker();
 
-    const initialTick = performance.now();
-    worker.postMessage(number);
+      worker.onmessage = () => {
+        const finalTick = performance.now();
+
+        if (this.mainFibbonacciCount) {
+          const diference =
+            this.mainFibbonacciCount - (finalTick - initialTick);
+          this.toastr.info(
+            `Diferença de tempo gasto: ${
+              diference < 0
+                ? '+' + (diference * -1).toFixed(0)
+                : diference.toFixed(0)
+            }`
+          );
+        }
+
+        this.toastr.success(
+          `Fibbonacci de ${number} com Web Workers: ${(
+            finalTick - initialTick
+          ).toFixed(0)} ms`
+        );
+      };
+
+      const initialTick = performance.now();
+      worker.postMessage(number);
+    });
   }
 
   countToBigNumMain() {
-    const numbers = Array.from({ length: 100 }, () => 1e8);
+    const { onHidden } = this.toastr.info('Iniciando contagem na Main thread');
 
-    const initialTick = performance.now();
+    onHidden.subscribe(() => {
+      const numbers = Array.from({ length: 100 }, () => 1e8);
 
-    for (let num of numbers) {
-      let result = 0;
-      for (let i = 0; i < num; i++) {
-        result++;
+      const initialTick = performance.now();
+
+      for (let num of numbers) {
+        let result = 0;
+        for (let i = 0; i < num; i++) {
+          result++;
+        }
       }
-    }
 
-    const finalTick = performance.now();
-    this.mainNumCount = finalTick;
+      const finalTick = performance.now();
+      this.mainNumCount = finalTick - initialTick;
 
-    console.log(
-      `Count to a big number on main thread: ${finalTick - initialTick} ms`
-    );
+      this.toastr.success(
+        `Contagem finalizada em:  ${(finalTick - initialTick).toFixed(0)} ms`
+      );
+    });
   }
 
   countToBigNumWorker() {
-    const numbers = Array.from({ length: 100 }, () => 1e8);
+    const { onHidden } = this.toastr.info('Iniciando contagem com Web Workers');
 
-    const workers = 8;
-    let jobsDones = 0;
+    onHidden.subscribe(() => {
+      const numbers = Array.from({ length: 100 }, () => 1e8);
 
-    const workerCallBack = () => {
-      jobsDones++;
+      const workers = 8;
+      let jobsDones = 0;
 
-      if (jobsDones === workers) {
-        const finalTick = performance.now();
+      const workerCallBack = () => {
+        jobsDones++;
 
-        console.log(
-          `Count to a big number on ${workers} workers: ${
-            finalTick - initialTick
-          } ms`
-        );
+        if (jobsDones === workers) {
+          const finalTick = performance.now();
 
-        console.log(
-          `Time spend difference is ${
-            this.mainNumCount - (finalTick - initialTick)
-          }`
-        );
+          if (this.mainNumCount)
+            this.toastr.info(
+              `Diferença de tempo gasto: ${(
+                this.mainNumCount -
+                (finalTick - initialTick)
+              ).toFixed(0)}`
+            );
+
+          this.toastr.success(
+            `Contagem realizada com ${workers} worker(s) finalizada em: ${(
+              finalTick - initialTick
+            ).toFixed(0)}`
+          );
+        }
+      };
+
+      const initialTick = performance.now();
+      const jobs = numbers.length / workers;
+
+      for (let i = 0; i < workers; i++) {
+        const worker = this.createCountWorker();
+        worker.onmessage = workerCallBack;
+        worker.postMessage(numbers.slice(i * jobs, (i + 1) * jobs));
       }
-    };
-
-    const initialTick = performance.now();
-    const jobs = numbers.length / workers;
-
-    for (let i = 0; i < workers; i++) {
-      const worker = this.createCountWorker();
-      worker.onmessage = workerCallBack;
-      worker.postMessage(numbers.slice(i * jobs, (i + 1) * jobs));
-    }
+    });
   }
 
   fib(n: number): number {

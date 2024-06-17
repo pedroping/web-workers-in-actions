@@ -9,12 +9,16 @@
   <div class="start-actions">
     <div class="action">
       <h2>Contar até um numero muito grande</h2>
-      <button>Começar</button>
+      <button (click)="countToBigNumMain()">Main Thread</button>
+      <button (click)="countToBigNumWorker()">Web Workers</button>
     </div>
 
     <div class="action">
       <h2>Seguencia de fibbonacci</h2>
-      <button>Começar</button>
+      <button (click)="fibbonacciOnMain()">Main Thread</button>
+      <button (click)="fibbonacciOnWorkers()">Web Workers</button>
     </div>
   </div>
+
+  <a class="help" routerLink="/help">?</a>
 </main>

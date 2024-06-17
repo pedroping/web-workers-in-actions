@@ -1,0 +1,191 @@
+<section id="how-a-web-worker-work">
+  <div class="back-to-start" routerLink="/"><</div>
+  <article>
+    <h1>Como um Web Worker funciona e como utilizá-los no angular</h1>
+
+    <img
+      src="/assets/images/web-workers.png"
+      alt="Imagem ilustrativa de um Web Worker"
+    />
+
+    <p>
+      Antes de entender mais sobre os Web Workers, é importante saber como o
+      JavaScript funciona. Por padrão, o navegador usa apenas uma Thread para
+      rodar todo o nosso código, seja logicas, layout, reflows e garbage
+      collections. Ou seja, em casos que necessitamos de muito processamento por
+      parte do Client-Side da nossa aplicação, teremos que enfrentar o problema
+      de ter nossa Main Thread bloqueada, gerando travamentos consequentemente
+      uma má responsividade e péssima experiencia para o usuário.
+    </p>
+
+    <p>
+      Para contornar esses problemas temos como opção os
+      <strong>Web Workers</strong>. Um web worker permite rodar um script por
+      fora da nossa Main Thread, assim evitando, bloqueios na execução do nosso
+      sistema principalmente na parte de layout. Em um worker você pode usar
+      qualquer código com JavaScript, salvo algumas exceções como a manipulação
+      direta do <strong>DOM</strong> ou algumas propriedades do objeto
+      <strong>Window</strong>.
+    </p>
+
+    <h2>Como criar um Web Worker</h2>
+
+    <p>
+      Um Web Worker é um objeto criado com o construtor Worker( ) que roda um
+      arquivo JavaScript, esse arquive deve conter seu código para a thread no
+      seu novo worker em um novo contexto fora da Window atual.
+    </p>
+
+    <p>
+      A comunicação do seu worker com o thread principal funciona através de um
+      sistema de mensagens usando os métodos postMessage( ) e o evento
+      onmessage.
+    </p>
+
+    <h2>Adicionando um Web Worker no seu projeto Angular</h2>
+
+    <h3><span>1.</span> Criando as configurações do worker atraves do CLI:</h3>
+
+    <p>
+      Na hora de criar um Web Worker, o angular nos ajudar com todas as
+      configurações através do comando
+      <span class="code">ng generate web-worker</span>.
+    </p>
+
+    <p>
+      Esse comando cria s arquivo
+      <span class="code">tsconfig.worker.json</span> , com as configurações para
+      que nossos workers possam ser facilmente implementados, e utilizarem
+      TypeScript.
+    </p>
+
+    <pre class="prettyprint">
+      <code class="language-javascript">
+        /* To learn more about this file see: https://angular.io/config/tsconfig. */
+        {{ "{" }}
+          "extends": "./tsconfig.json",
+          "compilerOptions": {{ "{" }}
+            "outDir": "./out-tsc/worker",
+            "lib": [
+              "es2018",
+              "webworker"
+            ],
+            "types": []
+          {{ "}" }},
+          "include": [
+            "src/**/*.worker.ts"
+          ]
+        {{ "}" }}
+      </code>
+    </pre>
+    <sub>tsconfig.worker.json file</sub>
+
+    <h3><span>2.</span> Criando nosso primeiro worker:</h3>
+
+    <p>
+      Agora em qualquer parte do seu código crie um arquivo com a extensão
+      .worker.ts, e escreva o código abaixo.
+    </p>
+
+    <pre class="prettyprint">
+      <code class="language-javascript">
+        /// {{ '{{ < }}reference lib="webworker" />' }}
+        addEventListener('message', ({{ "{" }} data {{ "} " }}) => {{ "{" }}
+        
+          postMessage( );
+        {{ "}" }});
+      </code>
+    </pre>
+    <sub>**.worker.ts file</sub>
+
+    <p>
+      Dentro do evento message você pode receber qualquer tipo de dado e
+      executar qualquer coisa com o mesmo, após finalizar a ação desejada você
+      pode enviar quaisquer dados de volta para quem estiver ouvindo o evento
+      <span class="code">onmessage</span>
+      dentro da função <span class="code">postMessage( )</span>.
+    </p>
+
+    <h3><span>3.</span> Instanciar nosso worker:</h3>
+
+    <p>
+      Instanciar um worker é uma tarefa bem simples baste usar o construtor
+      <span class="code">Worker( )</span>, passando com parâmetro um novo
+      <span class="code">URL( )</span> com o caminho do arquivo do worker do
+      tipo meta url .
+    </p>
+
+    <pre class="prettyprint">
+      <code class="language-javascript">
+        const worker = new Worker(new URL('../workers/count.worker', import.meta.url));
+      </code>
+    </pre>
+    <sub>Instanciando nosso worker</sub>
+
+    <h3><span>4.</span> Utilizando nosso worker:</h3>
+
+    <p>
+      Após criado, chega a hora de colocar nosso novo worker em uso. O método de
+      comunicação do seu worker com nossa main thread acorrera através do evento
+      <span class="code">onmessage</span>.
+    </p>
+
+    <pre class="prettyprint">
+      <code class="language-javascript">
+        worker.postMessage(...data);
+        
+        worker.onmessage = ( ) => {{ '{' }}
+            ...alguma ação
+        {{ '}' }}
+      </code>
+    </pre>
+    <sub>Enviado e recebendo dados do nosso worker</sub>
+
+    <p>
+      O exemplo contem um exemplo de uso de um web worker, a função
+      <span class="code">worker.postMessage( )</span> envia qualquer tipo de
+      dado para o nosso worker e o inicia, a partir daqui ele realiza a ação
+      desejada e devolve algum dado jutamento com o event onmessage na sua
+      própria função <span class="code">postMessage( )</span>, que é recebido
+      dentro do callback worker.onmessage, a partir daqui já sabemos que nosso
+      worker concluiu sua função com exito.
+    </p>
+
+    <h2>Bibliografia</h2>
+
+    <a target="_blank" href="https://angular.dev/ecosystem/web-workers">
+      Web Workers - Angular
+    </a>
+    <a
+      target="_blank"
+      href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API"
+    >
+      Web Workers API - Web APIs | MDN
+    </a>
+    <a
+      target="_blank"
+      href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers"
+    >
+      Using Web Workers - Web APIs | MDN
+    </a>
+    <a
+      target="_blank"
+      href="https://developer.mozilla.org/en-US/docs/Glossary/Main_thread"
+    >
+      Main thread - MDN Web Docs Glossary: Definitions of Web-related terms |
+      MDN
+    </a>
+
+    <div class="contacts">
+      <a target="_blank" href="https://github.com/pedroping">
+        <img src="/assets/images/github-icon.png" alt="Ícone do github" />
+      </a>
+      <a
+        target="_blank"
+        href="https://www.linkedin.com/in/pedro-henrique-chaves-669b10222/"
+      >
+        <img src="/assets/images/linkedin-icon.png" alt="Ícone do linkedIn" />
+      </a>
+    </div>
+  </article>
+</section>
