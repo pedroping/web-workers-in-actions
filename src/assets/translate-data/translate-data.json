@@ -1,0 +1,24 @@
+{
+  "en": {
+    "text-01": "How a Web Worker operate and how to use them in Angular",
+    "text-02": "Before learn more about Web Workers, it is important to know more how JavaScript workers. By default, the browser use only on Thread to run all of your code, logics, layouts, reflows and garbage collections. Like that, in some cases who need more processing by the client-side of some application, we have to face some problems from the main thread stucked, consequently causing crashes, a bad responsivity and a bad user experience.",
+    "text-03": "To bypass these problems, we have as option the <strong>Web Workers</strong>. A web worker allows us to run a script outside our Main Thread, avoiding blocks at main system execution, especially at layout. At a worker, you can use any piece of code with JavaScript, except something as directly <strong>DOM</strong> manipulation and some properties from <strong>Window</strong> object.",
+    "text-04": "How to create a Web Worker",
+    "text-05": "A web worker is an object created with a constructor Worker( ) that runs on a JavaScript file, this file must contain your code for the thread on the new worker in a new context outside the current Window.",
+    "text-06": "",
+    "text-07": "",
+    "text-08": "",
+    "text-09": "",
+    "text-10": "",
+    "text-11": "",
+    "text-12": "",
+    "text-13": "",
+    "text-14": "",
+    "text-15": "",
+    "text-16": "",
+    "text-17": "",
+    "text-18": "",
+    "text-19": "",
+    "text-20": ""
+  }
+}

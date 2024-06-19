@@ -1,14 +1,16 @@
 <section id="how-a-web-worker-work">
   <div class="back-to-start" routerLink="/"><</div>
   <article>
-    <h1>Como um Web Worker funciona e como utilizá-los no angular</h1>
+    <h1 translate="text-01">
+      Como um Web Worker funciona e como utilizá-los no angular
+    </h1>
 
     <img
       src="/assets/images/web-workers.png"
       alt="Imagem ilustrativa de um Web Worker"
     />
 
-    <p>
+    <p translate="text-02">
       Antes de entender mais sobre os Web Workers, é importante saber como o
       JavaScript funciona. Por padrão, o navegador usa apenas uma Thread para
       rodar todo o nosso código, seja logicas, layout, reflows e garbage
@@ -18,7 +20,7 @@
       uma má responsividade e péssima experiencia para o usuário.
     </p>
 
-    <p>
+    <p translate="text-03">
       Para contornar esses problemas temos como opção os
       <strong>Web Workers</strong>. Um web worker permite rodar um script por
       fora da nossa Main Thread, assim evitando, bloqueios na execução do nosso
@@ -28,31 +30,35 @@
       <strong>Window</strong>.
     </p>
 
-    <h2>Como criar um Web Worker</h2>
+    <h2 translate="text-04">Como criar um Web Worker</h2>
 
-    <p>
+    <p translate="text-05">
       Um Web Worker é um objeto criado com o construtor Worker( ) que roda um
       arquivo JavaScript, esse arquive deve conter seu código para a thread no
       seu novo worker em um novo contexto fora da Window atual.
     </p>
 
-    <p>
+    <p translate="text-05">
       A comunicação do seu worker com o thread principal funciona através de um
       sistema de mensagens usando os métodos postMessage( ) e o evento
       onmessage.
     </p>
 
-    <h2>Adicionando um Web Worker no seu projeto Angular</h2>
+    <h2 translate="text-06">
+      Adicionando um Web Worker no seu projeto Angular
+    </h2>
 
-    <h3><span>1.</span> Criando as configurações do worker atraves do CLI:</h3>
+    <h3 translate="text-07">
+      <span>1.</span> Criando as configurações do worker atraves do CLI:
+    </h3>
 
-    <p>
+    <p translate="text-08">
       Na hora de criar um Web Worker, o angular nos ajudar com todas as
       configurações através do comando
       <span class="code">ng generate web-worker</span>.
     </p>
 
-    <p>
+    <p translate="text-09">
       Esse comando cria s arquivo
       <span class="code">tsconfig.worker.json</span> , com as configurações para
       que nossos workers possam ser facilmente implementados, e utilizarem
@@ -80,9 +86,9 @@
     </pre>
     <sub>tsconfig.worker.json file</sub>
 
-    <h3><span>2.</span> Criando nosso primeiro worker:</h3>
+    <h3 translate="text-10"><span>2.</span> Criando nosso primeiro worker:</h3>
 
-    <p>
+    <p translate="text-11">
       Agora em qualquer parte do seu código crie um arquivo com a extensão
       .worker.ts, e escreva o código abaixo.
     </p>
@@ -98,7 +104,7 @@
     </pre>
     <sub>**.worker.ts file</sub>
 
-    <p>
+    <p translate="text-12">
       Dentro do evento message você pode receber qualquer tipo de dado e
       executar qualquer coisa com o mesmo, após finalizar a ação desejada você
       pode enviar quaisquer dados de volta para quem estiver ouvindo o evento
@@ -106,9 +112,9 @@
       dentro da função <span class="code">postMessage( )</span>.
     </p>
 
-    <h3><span>3.</span> Instanciar nosso worker:</h3>
+    <h3 translate="text-13"><span>3.</span> Instanciar nosso worker:</h3>
 
-    <p>
+    <p translate="text-14">
       Instanciar um worker é uma tarefa bem simples baste usar o construtor
       <span class="code">Worker( )</span>, passando com parâmetro um novo
       <span class="code">URL( )</span> com o caminho do arquivo do worker do
@@ -120,11 +126,11 @@
         const worker = new Worker(new URL('../workers/count.worker', import.meta.url));
       </code>
     </pre>
-    <sub>Instanciando nosso worker</sub>
+    <sub translate="text-15">Instanciando nosso worker</sub>
 
-    <h3><span>4.</span> Utilizando nosso worker:</h3>
+    <h3 translate="text-16"><span>4.</span> Utilizando nosso worker:</h3>
 
-    <p>
+    <p translate="text-17">
       Após criado, chega a hora de colocar nosso novo worker em uso. O método de
       comunicação do seu worker com nossa main thread acorrera através do evento
       <span class="code">onmessage</span>.
@@ -135,13 +141,13 @@
         worker.postMessage(...data);
         
         worker.onmessage = ( ) => {{ '{' }}
-            ...alguma ação
+            ...code
         {{ '}' }}
       </code>
     </pre>
-    <sub>Enviado e recebendo dados do nosso worker</sub>
+    <sub translate="text-18">Enviado e recebendo dados do nosso worker</sub>
 
-    <p>
+    <p translate="text-19">
       O exemplo contem um exemplo de uso de um web worker, a função
       <span class="code">worker.postMessage( )</span> envia qualquer tipo de
       dado para o nosso worker e o inicia, a partir daqui ele realiza a ação
@@ -151,7 +157,7 @@
       worker concluiu sua função com exito.
     </p>
 
-    <h2>Bibliografia</h2>
+    <h2 translate="text-20">Bibliografia</h2>
 
     <a target="_blank" href="https://angular.dev/ecosystem/web-workers">
       Web Workers - Angular

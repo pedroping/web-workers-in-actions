@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { WebWorkesTestService } from 'src/app/core/services/web-workes-test.service';
+import { WebWorkesTestService } from '@core/services/web-workes-test/web-workes-test.service';
 
 @Component({
   selector: 'welcome-page',

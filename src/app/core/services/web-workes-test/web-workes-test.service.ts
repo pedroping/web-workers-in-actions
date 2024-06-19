@@ -11,11 +11,13 @@ export class WebWorkesTestService {
   constructor(private toastr: ToastrService) {}
 
   createCountWorker() {
-    return new Worker(new URL('../workers/count.worker', import.meta.url));
+    return new Worker(new URL('../../workers/count.worker', import.meta.url));
   }
 
   createFibbonaciWorker() {
-    return new Worker(new URL('../workers/fibonacci.worker', import.meta.url));
+    return new Worker(
+      new URL('../../workers/fibonacci.worker', import.meta.url)
+    );
   }
 
   fibbonacciSequenceMain() {
