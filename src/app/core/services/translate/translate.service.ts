@@ -33,7 +33,7 @@ export class TranslateService {
   getText(lang: AvailableLangs, id: string) {
     const langData = this.translateData[lang];
 
-    return langData[id] ?? 'Not Found';
+    return langData[id] || 'Not Found';
   }
 
   get translateData() {
