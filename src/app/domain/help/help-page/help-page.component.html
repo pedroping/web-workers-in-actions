@@ -59,7 +59,7 @@
     </p>
 
     <p translate="text-09">
-      Esse comando cria s arquivo
+      Esse comando cria um arquivo
       <span class="code">tsconfig.worker.json</span> , com as configurações para
       que nossos workers possam ser facilmente implementados, e utilizarem
       TypeScript.
@@ -90,7 +90,7 @@
 
     <p translate="text-11">
       Agora em qualquer parte do seu código crie um arquivo com a extensão
-      .worker.ts, e escreva o código abaixo.
+      <span class="code">.worker.ts</span>, e escreva o código abaixo.
     </p>
 
     <pre class="prettyprint">
@@ -153,8 +153,8 @@
       dado para o nosso worker e o inicia, a partir daqui ele realiza a ação
       desejada e devolve algum dado jutamento com o event onmessage na sua
       própria função <span class="code">postMessage( )</span>, que é recebido
-      dentro do callback worker.onmessage, a partir daqui já sabemos que nosso
-      worker concluiu sua função com exito.
+      dentro do callback <span class="code">worker.onmessage</span>, a partir
+      daqui já sabemos que nosso worker concluiu sua função com exito.
     </p>
 
     <h2 translate="text-20">Bibliografia</h2>

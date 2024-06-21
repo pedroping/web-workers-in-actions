@@ -33,7 +33,6 @@
       .action {
         display: flex;
         align-items: center;
-        justify-content: space-between;
         flex-direction: column;
         gap: 10px;
         height: 100%;
@@ -42,6 +41,7 @@
           font-size: 18px;
           width: 190px;
           text-align: center;
+          margin-bottom: auto;
         }
 
         button {
@@ -104,6 +104,7 @@
       font-weight: 800;
       transition: all 200ms ease-out;
       text-decoration: none;
+      color: black;
 
       &:hover {
         transform: translateY(-1px);

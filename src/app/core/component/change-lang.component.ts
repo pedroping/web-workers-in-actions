@@ -19,7 +19,7 @@ export class ChangeLangComponent {
   langImg$ = this.translateService.langChosed$.asObservable().pipe(
     startWith(this.translateService.lang),
     map((val) =>
-      val == 'br' ? '/assets/images/brasil.png' : '/assets/images/usa.png'
+      val == 'br' ? '/assets/images/usa.png' : '/assets/images/brasil.png'
     )
   );
 
