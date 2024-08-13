@@ -9,15 +9,16 @@
     position: relative;
 
     gap: 20px;
-    padding-bottom: 100px;
+    padding: 0px 20px 100px;
 
     h1 {
       font-size: 52px;
+      text-align: center;
     }
 
     .subtitle {
       text-align: center;
-      width: 400px;
+      max-width: 400px;
     }
 
     sub {
@@ -28,6 +29,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 20px;
 
       .action {
@@ -104,10 +106,22 @@
       font-weight: 800;
       transition: all 200ms ease-out;
       text-decoration: none;
+      color: black;
 
       &:hover {
         transform: translateY(-1px);
       }
+    }
+  }
+
+  @media (max-width: 440px) {
+    .start-actions {
+      gap: 50px !important;
+    } 
+
+    .action {
+      height: auto !important;
+      justify-content: flex-start !important;
     }
   }
 }

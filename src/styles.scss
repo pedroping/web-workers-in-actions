@@ -2,18 +2,27 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Raleway'
+  font-family: "Raleway";
 }
 
-
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
 }
 
+@media (max-width: 450px) {
+  .toast-container {
+    right: -7% !important;
+  }
+
+  .ngx-toastr {
+    max-width: 90%;
+  }
+}
+
 .ngx-toastr {
   width: 350px !important;
-  max-width: 100%;
 }
 
 .prettyprint {
