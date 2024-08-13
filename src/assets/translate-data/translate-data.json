@@ -1,0 +1,27 @@
+{
+  "en": {
+    "text-01": "How a Web Worker operate and how to use them in Angular",
+    "text-02": "Before learn more about Web Workers, it is important to know more how JavaScript workers. By default, the browser use only on Thread to run all of your code, logics, layouts, reflows and garbage collections. Like that, in some cases who need more processing by the client-side of some application, we have to face some problems from the main thread stucked, consequently causing crashes, a bad responsivity and a bad user experience.",
+    "text-03": "To bypass these problems, we have as option the <strong>Web Workers</strong>. A web worker allows us to run a script outside our Main Thread, avoiding blocks at main system execution, especially at layout. At a worker, you can use any piece of code with JavaScript, except something as directly <strong>DOM</strong> manipulation and some properties from <strong>Window</strong> object.",
+    "text-04": "How to create a Web Worker",
+    "text-05": "A web worker is an object created with a constructor Worker( ) that runs on a JavaScript file, this file must contain your code for the thread on the new worker in a new context outside the current Window.",
+    "text-06": "Adding a Web Worker in your Angular project.",
+    "text-07": "<span>1.</span> Creating worker configs through CLI",
+    "text-08": "At time to create a Web Worker, angular help us with necessary configuration through the command <span class='code'>ng generate web-worker</span>.",
+    "text-09": "This command create a file <span class='code'>tsconfig.worker.json</span> , with all configurations to our worker to be easily implemented, and to use TypeScript",
+    "text-10": "<span>2.</span> Creating our first worker:",
+    "text-11": "New at any part of your code create a file with an extension <span class='code'>.worker.ts</span>, and write the code below.",
+    "text-12": "Inside message event you can receive any type of data e run anything with him, after finish the desired action you can send any data back to who are listening the <span class='code'>onmessage</span> event with the function <span class='code'>postMessage( )</span>.",
+    "text-13": "<span>3.</span> Instantiate our worker:",
+    "text-14": "To instantiate a worker is a simple take, just use the constructor <span class='code'>Worker( )</span>, passing as parameter a new <span class='code'>URL( )</span> with the worker file path and a URL of meta type.",
+    "text-15": "Instantiating our worker",
+    "text-16": "<span>4.</span> Using our worker:",
+    "text-17": "After created, it's time to put our worker in use. The communication method with our main thread occurs through the event <span class='code'>onmessage</span>.",
+    "text-18": "Sending and receiving data of our worker",
+    "text-19": "The example contains a use example of a web worker, the function <span class='code'>worker.postMessage( )</span> sends any type of data to the worker and starts him, by here he realizes the desired action and sends back some data with the onmessage event on his own function <span class='code'>postMessage( )</span>, that are received inside the <span class='code'>worker.onmessage</span> callback, after its all we already know that everything has occurred correctly.",
+    "text-20": "Bibliography",
+    "text-21": "This project has the proposal to show Web Worker usability and capability",
+    "text-22": "Count to a giant number",
+    "text-23": "Fibonacci sequence"
+  }
+}
