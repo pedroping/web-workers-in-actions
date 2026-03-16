@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { ChangeLangComponent } from '@core/component/change-lang.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'root',
@@ -10,6 +11,11 @@ import { ChangeLangComponent } from '@core/component/change-lang.component';
   standalone: true,
   imports: [CommonModule, RouterOutlet, ChangeLangComponent],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'web-workers-in-action';
+  private readonly router = inject(Router);
+
+  ngOnInit(): void {
+    if (environment.isWebComponent) this.router.navigateByUrl('/');
+  }
 }

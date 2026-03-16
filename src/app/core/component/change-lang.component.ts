@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { TranslateService } from '@core/services/translate/translate.service';
 import { map, startWith } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'change-lang',
@@ -19,8 +20,10 @@ export class ChangeLangComponent {
   langImg$ = this.translateService.langChosed$.asObservable().pipe(
     startWith(this.translateService.lang),
     map((val) =>
-      val == 'br' ? '/assets/images/brasil.png' : '/assets/images/usa.png'
-    )
+      val == 'br'
+        ? environment.baseUrl + '/assets/images/brasil.png'
+        : environment.baseUrl + '/assets/images/usa.png',
+    ),
   );
 
   constructor(private readonly translateService: TranslateService) {}

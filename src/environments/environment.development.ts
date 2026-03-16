@@ -1,3 +1,5 @@
 export const environment = {
-    prod: false
+  prod: false,
+  isWebComponent: false,
+  baseUrl: '',
 };

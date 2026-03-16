@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,18 +12,44 @@ export class WebWorkesTestService {
   constructor(private toastr: ToastrService) {}
 
   createCountWorker() {
-    return new Worker(new URL('../../workers/count.worker', import.meta.url));
+    if (environment.isWebComponent) {
+      const remoteWorkerUrl =
+        'http://localhost:4200/assets/workers/count.worker.js';
+      const workerBlob = new Blob([`importScripts('${remoteWorkerUrl}')`], {
+        type: 'application/javascript',
+      });
+      return new Worker(URL.createObjectURL(workerBlob));
+    } else {
+      return new Worker(
+        new URL('../../workers/count.worker', import.meta.url),
+        {
+          type: 'module',
+        },
+      );
+    }
   }
 
   createFibbonaciWorker() {
-    return new Worker(
-      new URL('../../workers/fibonacci.worker', import.meta.url)
-    );
+    if (environment.isWebComponent) {
+      const remoteWorkerUrl =
+        'http://localhost:4200/assets/workers/fibonacci.worker.js';
+      const workerBlob = new Blob([`importScripts('${remoteWorkerUrl}')`], {
+        type: 'application/javascript',
+      });
+      return new Worker(URL.createObjectURL(workerBlob));
+    } else {
+      return new Worker(
+        new URL('../../workers/fibonacci.worker', import.meta.url),
+        {
+          type: 'module',
+        },
+      );
+    }
   }
 
   fibbonacciSequenceMain() {
     const { onHidden } = this.toastr.info(
-      'Iniciando Fibbonacci na Main thread'
+      'Iniciando Fibbonacci na Main thread',
     );
 
     onHidden.subscribe(() => {
@@ -45,14 +72,14 @@ export class WebWorkesTestService {
       this.toastr.success(
         `Fibbonacci de ${number} na Main thread:  ${(
           finalTick - initialTick
-        ).toFixed(0)} ms`
+        ).toFixed(0)} ms`,
       );
     });
   }
 
   fibbonacciSequenceWorker() {
     const { onHidden } = this.toastr.info(
-      'Iniciando Fibbonacci com Web Workers'
+      'Iniciando Fibbonacci com Web Workers',
     );
 
     onHidden.subscribe(() => {
@@ -71,14 +98,14 @@ export class WebWorkesTestService {
               diference < 0
                 ? '+' + (diference * -1).toFixed(0)
                 : diference.toFixed(0)
-            }`
+            }`,
           );
         }
 
         this.toastr.success(
           `Fibbonacci de ${number} com Web Workers: ${(
             finalTick - initialTick
-          ).toFixed(0)} ms`
+          ).toFixed(0)} ms`,
         );
       };
 
@@ -106,7 +133,7 @@ export class WebWorkesTestService {
       this.mainNumCount = finalTick - initialTick;
 
       this.toastr.success(
-        `Contagem finalizada em:  ${(finalTick - initialTick).toFixed(0)} ms`
+        `Contagem finalizada em:  ${(finalTick - initialTick).toFixed(0)} ms`,
       );
     });
   }
@@ -131,13 +158,13 @@ export class WebWorkesTestService {
               `Diferença de tempo gasto: ${(
                 this.mainNumCount -
                 (finalTick - initialTick)
-              ).toFixed(0)}`
+              ).toFixed(0)}`,
             );
 
           this.toastr.success(
             `Contagem realizada com ${workers} worker(s) finalizada em: ${(
               finalTick - initialTick
-            ).toFixed(0)}`
+            ).toFixed(0)}`,
           );
         }
       };

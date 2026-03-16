@@ -6,6 +6,7 @@ import {
   ITranslateDate,
 } from '@shared/models/translate-models';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,9 @@ export class TranslateService {
 
   startDomain() {
     this.http
-      .get<ITranslateDate>('/assets/translate-data/translate-data.json')
+      .get<ITranslateDate>(
+        environment.baseUrl + '/assets/translate-data/translate-data.json',
+      )
       .subscribe((data) => this.translateData$.next(data));
   }
 
